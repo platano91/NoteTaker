@@ -15,4 +15,8 @@ app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 app.use(express.static('public'));
 
-
+// Error handling
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Oops, something went wrong!');
+});
