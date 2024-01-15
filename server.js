@@ -20,3 +20,24 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Oops, something went wrong!');
 });
+
+// API Endpoints
+// GET - Retrieve notes
+app.get('/api/notes', (req, res) => {
+    res.json(notes);
+});
+
+//POST - Create notes
+app.post('/api/notes', (req, res, next) => {
+    req.body.id = notes.length.toString();
+    notes.push(req.body);
+  
+    fs.writeFile(path.join(__dirname, './db/db.json'), JSON.stringify({ notes }, null, 2), (err) => {
+        if (err) {
+            notes.pop();
+            next(err);
+        } else {
+            res.json(req.body);
+        }
+    });
+});
