@@ -42,7 +42,15 @@ app.post('/api/notes', (req, res, next) => {
     });
 });
 
-// DELETE - Remove a note
+// DELETE - Remove notes
+
+// Serve HTML files
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/notes.html'));
+});
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
 
 // Start the server
 app.listen(PORT, () => {
