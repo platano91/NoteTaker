@@ -41,3 +41,10 @@ app.post('/api/notes', (req, res, next) => {
         }
     });
 });
+
+// DELETE - Remove a note
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`API server running on http://localhost:${PORT}`);
+});
