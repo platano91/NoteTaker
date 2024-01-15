@@ -42,7 +42,26 @@ app.post('/api/notes', (req, res, next) => {
     });
 });
 
-// DELETE - Remove notes
+// DELETE - Remove notes by ID
+app.delete('/api/notes/:id', (req, res, next) => {
+    const noteId = req.params.id;
+    const noteIndex = notes.findIndex(note => note.id === noteId);
+  
+    if (noteIndex !== -1) {
+        notes.splice(noteIndex, 1);
+  
+        fs.writeFile(path.join(__dirname, './db/db.json'), JSON.stringify({ notes }, null, 2), (err) => {
+            if (err) {
+                notes.splice(noteIndex, 0, notes[noteIndex]);
+                next(err);
+            } else {
+                res.json({ message: 'Note deleted' });
+            }
+        });
+    } else {
+        res.status(404).json({ error: 'Note not found' });
+    }
+});
 
 // Serve HTML files
 app.get('/notes', (req, res) => {
